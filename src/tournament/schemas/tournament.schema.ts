@@ -21,8 +21,10 @@ export class TournamentProperties {
     @Prop({required:true})
     teams: string[]
 
+    @Prop()
     pools?: number
-    
+
+    @Prop()
     format?: string
 
     @Prop({default:Date.now})

@@ -18,7 +18,6 @@ export class TournamentService {
                 .find()
                 .sort({ createdAt: -1 })
                 .exec();
-
             if (!tournaments || tournaments.length === 0) {
                 throw new NotFoundException('No tournaments found');
             }
@@ -60,33 +59,33 @@ export class TournamentService {
         }
     }
     // Update tournament data
-    async updateTournamentData(id:string,updateData:Partial<newTournament>):Promise<{message:string,data:TournamentProperties}>{
+    async updateTournamentData(id: string, updateData: Partial<newTournament>): Promise<{ message: string, data: TournamentProperties }> {
         try {
             const existingTournament = this.tournamentModel.findById(id)
-            if(!existingTournament) throw new NotFoundException('Tournament not found')
-                 // Update the tournament
+            if (!existingTournament) throw new NotFoundException('Tournament not found')
+            // Update the tournament
             const updatedTournament = await this.tournamentModel
-            .findByIdAndUpdate(
-                id,
-                { $set: updateData },
-                { new: true } // This option returns the updated document
-            )
-            .exec();
-            return {message:'Tournament updated successfully', data:updatedTournament}
+                .findByIdAndUpdate(
+                    id,
+                    { $set: updateData },
+                    { new: true } // This option returns the updated document
+                )
+                .exec();
+            return { message: 'Tournament updated successfully', data: updatedTournament }
         } catch (error) {
-            if(error instanceof NotFoundException) throw error
-            if(error.code ===1100) throw new ConflictException('Tournament with this name already exists')
-                throw new InternalServerErrorException('Error updating tournament');
+            if (error instanceof NotFoundException) throw error
+            if (error.code === 1100) throw new ConflictException('Tournament with this name already exists')
+            throw new InternalServerErrorException('Error updating tournament');
         }
     }
-    async deleteTournament(id:string):Promise<{message:string}>{
+    async deleteTournament(id: string): Promise<{ message: string }> {
         try {
             const existingTournament = this.tournamentModel.findById(id)
-            if(!existingTournament) throw new NotFoundException('Tournament not found')
-                await this.tournamentModel.findByIdAndDelete(id)
-            return {message:'Tournament deleted successfully.'}
+            if (!existingTournament) throw new NotFoundException('Tournament not found')
+            await this.tournamentModel.findByIdAndDelete(id)
+            return { message: 'Tournament deleted successfully.' }
         } catch (error) {
-            if(error instanceof NotFoundException) throw error
+            if (error instanceof NotFoundException) throw error
             throw new InternalServerErrorException('Error in deleting tournament')
         }
     }
