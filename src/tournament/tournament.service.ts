@@ -3,11 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TournamentProperties } from './schemas/tournament.schema';
 import { newTournament } from './dtos/tournaments.dto';
+import * as fs from 'fs/promises';
+import { join } from 'path';
 
 @Injectable()
 export class TournamentService {
     constructor(
-        @InjectModel('TournamentProperties')
+        @InjectModel(TournamentProperties.name)
         private readonly tournamentModel: Model<TournamentProperties>,
     ) { }
 
@@ -34,30 +36,29 @@ export class TournamentService {
 
     // New Tournament creation with error handling
     async createTournament(tournamentData: newTournament): Promise<{ message: string; data?: TournamentProperties }> {
-        console.log(tournamentData);
-
         try {
+            if (tournamentData.maxTeams && tournamentData.maxTeams < tournamentData.teams.length) {
+                throw new BadRequestException('Number of teams exceeds the maximum allowed.');
+            }
+    
             const newTournament = new this.tournamentModel({
                 ...tournamentData,
                 createdAt: new Date(),
             });
-            console.log(newTournament);
+    
             const savedTournament = await newTournament.save();
-
             return {
                 message: 'Tournament created successfully',
                 data: savedTournament,
             };
         } catch (error) {
-            // Handle duplicate name error (MongoDB unique index error code)
             if (error.code === 11000) {
                 throw new BadRequestException('Tournament with this name already exists.');
             }
-
-            // Generic error
             throw new InternalServerErrorException('An error occurred while creating the tournament.');
         }
     }
+    
     // Update tournament data
     async updateTournamentData(id: string, updateData: Partial<newTournament>): Promise<{ message: string, data: TournamentProperties }> {
         try {
