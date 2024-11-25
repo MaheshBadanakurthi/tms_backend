@@ -11,7 +11,7 @@ export class TournamentController {
         return this.tourService.getAllTournaments()
     }
 
-    @Post('/creation')
+    @Post()
     async createNewTournament(@Body(new ValidationPipe()) tournamentData: newTournament) {
         return this.tourService.createTournament(tournamentData)
     }
