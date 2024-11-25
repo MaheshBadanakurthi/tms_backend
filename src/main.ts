@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
@@ -8,7 +9,7 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
-  const ip = '192.168.0.22';
+  const ip = '192.168.0.175';
   const port = 4242;
 
   console.log(`Server is running on http://${ip}:${port}`);

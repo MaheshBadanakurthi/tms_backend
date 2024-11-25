@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Body, Controller, Get, Param, Post, Put, ValidationPipe } from '@nestjs/common';
 import { newTournament } from './dtos/tournaments.dto';
 import { TournamentService } from './tournament.service';

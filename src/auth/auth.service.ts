@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { registerDataTypes } from './dtos/auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -39,7 +40,6 @@ export class AuthService {
     async loginUser(email: string, password: string): Promise<any> {
         // Check if user exists
         const user = await this.userModel.findOne({ email });
-        console.log(user);
         if (!user) {
             throw new UnauthorizedException('Invalid credentials');
         }
