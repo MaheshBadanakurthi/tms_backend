@@ -9,6 +9,7 @@ import { TournamentModule } from './tournament/tournament.module';
 import { TournamentService } from './tournament/tournament.service';
 import { PlayersModule } from './players/players.module';
 import { TeamsModule } from './teams/teams.module';
+import { ProfileModule } from './Profile/profile.module';
 
 @Module({
   imports: [AuthModule,
@@ -19,7 +20,8 @@ import { TeamsModule } from './teams/teams.module';
     MongooseModule.forRoot('mongodb+srv://maheshbadanakurthi:wQ8TrHZfubO9kViI@tmscluster.e6tmm.mongodb.net/?retryWrites=true&w=majority&appName=tmsCluster/test'),
     TournamentModule,
     PlayersModule,
-    TeamsModule
+    TeamsModule,
+    ProfileModule
 
   ],
   controllers: [AppController,],

@@ -15,6 +15,7 @@ async function bootstrap() {
    app.useStaticAssets(path.join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/', // Set the URL prefix
 });
+
   // Explicitly log to verify
   // console.log('Environment:', process.env);
   
