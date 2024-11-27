@@ -4,15 +4,10 @@ import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
-
-   @Get()
-  getAll(){
-    
-  }
+  constructor(private authService: AuthService) { }
 
   // Register API
-  @Post()
+  @Post('/register')
   async userRegister(@Body(new ValidationPipe()) registerPayload: registerDataTypes) {
     return this.authService.postRegisterUsers(registerPayload);
   }
