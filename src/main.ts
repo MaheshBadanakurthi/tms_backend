@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
@@ -19,7 +20,7 @@ async function bootstrap() {
   // Explicitly log to verify
   // console.log('Environment:', process.env);
   
-  const ip = '192.168.0.22';
+  const ip = '192.168.0.175';
   const port = 4242;
 
   console.log(`IP: ${ip}, PORT: ${port}`);

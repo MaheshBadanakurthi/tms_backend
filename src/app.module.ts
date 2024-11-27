@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module, OnModuleInit } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -6,7 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { TournamentModule } from './tournament/tournament.module';
-import { TournamentService } from './tournament/tournament.service';
+import { TeamsModule } from './teams/teams.module';
 import { PlayersModule } from './players/players.module';
 import { TeamsModule } from './teams/teams.module';
 import { ProfileModule } from './Profile/profile.module';
