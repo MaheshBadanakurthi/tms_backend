@@ -30,23 +30,24 @@ export class TournamentService {
             if (error instanceof NotFoundException) {
                 throw error;
             }
-            throw new InternalServerErrorException('Error fetching tournaments');
+            throw new InternalServerErrorException(error);
         }
     }
 
-    // New Tournament creation with error handling
+    // New Tournament creation with error handling  
     async createTournament(tournamentData: newTournament): Promise<{ message: string; data?: TournamentProperties }> {
         try {
-            if (tournamentData.maxTeams && tournamentData.maxTeams < tournamentData.teams.length) {
-                throw new BadRequestException('Number of teams exceeds the maximum allowed.');
+            if (tournamentData.maxTeams && tournamentData.teams.length < tournamentData.maxTeams ) {
+                console.log(tournamentData.maxTeams,tournamentData.teams,tournamentData.teams.length);
+                throw new BadRequestException('Max teams cannot be less than the number of teams.');
             }
-    
+
             const newTournament = new this.tournamentModel({
                 ...tournamentData,
                 createdAt: new Date(),
             });
-    
             const savedTournament = await newTournament.save();
+
             return {
                 message: 'Tournament created successfully',
                 data: savedTournament,
@@ -55,10 +56,11 @@ export class TournamentService {
             if (error.code === 11000) {
                 throw new BadRequestException('Tournament with this name already exists.');
             }
-            throw new InternalServerErrorException('An error occurred while creating the tournament.');
+            throw new InternalServerErrorException(error);
         }
     }
-    
+
+
     // Update tournament data
     async updateTournamentData(id: string, updateData: Partial<newTournament>): Promise<{ message: string, data: TournamentProperties }> {
         try {
