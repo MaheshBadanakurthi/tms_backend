@@ -34,7 +34,7 @@ export class TournamentService {
         }
     }
 
-    // New Tournament creation with error handling
+    // New Tournament creation with error handling  
     async createTournament(tournamentData: newTournament): Promise<{ message: string; data?: TournamentProperties }> {
         try {
             if (tournamentData.maxTeams && tournamentData.teams.length < tournamentData.maxTeams ) {
