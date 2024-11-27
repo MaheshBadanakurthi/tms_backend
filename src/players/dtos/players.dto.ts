@@ -3,17 +3,15 @@ import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 export class newPlayer{
     @IsNotEmpty()
     @IsString()
-    name:string;
+    playerName:string;
     @IsNotEmpty()
     @IsString()
-    age:number;
+    age:string;
     @IsNotEmpty()
-    @IsString()
     sport:string[];
     @IsOptional()
     @IsNotEmpty()
     teams?:string[];
     @IsString()
     profilePicture:string;
-
 }

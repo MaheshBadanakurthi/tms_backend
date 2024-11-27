@@ -6,14 +6,14 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 })
 export class Players {
     @Prop({required:true})
-    name: string;
+    playerName: string;
     @Prop({required:true})
-    age: number;
+    age: string;
     @Prop({required:true})
     sport: string[];
     @Prop()
     teams: string[];
-    @Prop({required:true})
+    @Prop()
     profilePicture: string;
 }
 export const playerSchema = SchemaFactory.createForClass(Players)

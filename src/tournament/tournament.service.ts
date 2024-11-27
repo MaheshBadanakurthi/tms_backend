@@ -13,7 +13,6 @@ export class TournamentService {
         @InjectModel(TournamentProperties.name)
         private readonly tournamentModel: Model<TournamentProperties>,
     ) { }
-
     // Get All tournaments
     async getAllTournaments(): Promise<TournamentProperties[]> {
         try {

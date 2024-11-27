@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 import { Type } from "class-transformer";
-import { IsDate, IsNotEmpty, IsNumber, isNumber, IsOptional, IsString, Max, Min } from "class-validator";
+import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
 
 export class TournamentProfileDto {
     @IsOptional()

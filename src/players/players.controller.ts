@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Param, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, ValidationPipe } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { newPlayer } from './dtos/players.dto';
 
@@ -21,6 +21,7 @@ export class PlayersController {
         @Body(new ValidationPipe()) updateData: Partial<newPlayer>) {
         this.playerService.updatePlayerData(id, updateData)
     }
+    @Delete(':id')
     async deletePlayer(@Param('id') id: string) {
         this.playerService.deletePlayer(id)
     }
