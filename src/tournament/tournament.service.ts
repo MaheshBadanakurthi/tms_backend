@@ -4,8 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TournamentProperties } from './schemas/tournament.schema';
 import { newTournament } from './dtos/tournaments.dto';
-import * as fs from 'fs/promises';
-import { join } from 'path';
+
 
 @Injectable()
 export class TournamentService {
@@ -22,11 +21,9 @@ export class TournamentService {
                 .sort({ createdAt: -1 })
                 .exec();
             if (!tournaments || tournaments.length === 0) {
-                throw new NotFoundException('No tournaments found');
+                return []
             }
-
             return tournaments;
-
         } catch (error) {
             if (error instanceof NotFoundException) {
                 throw error;
@@ -38,17 +35,15 @@ export class TournamentService {
     // New Tournament creation with error handling  
     async createTournament(tournamentData: newTournament): Promise<{ message: string; data?: TournamentProperties }> {
         try {
-            if (tournamentData.maxTeams && tournamentData.teams.length < tournamentData.maxTeams ) {
+            if (tournamentData.maxTeams && tournamentData.teams.length > tournamentData.maxTeams ) {
                 console.log(tournamentData.maxTeams,tournamentData.teams,tournamentData.teams.length);
-                throw new BadRequestException('Max teams cannot be less than the number of teams.');
+                throw new BadRequestException('Number of teams can not more than max teams.');
             }
-
             const newTournament = new this.tournamentModel({
                 ...tournamentData,
                 createdAt: new Date(),
             });
             const savedTournament = await newTournament.save();
-
             return {
                 message: 'Tournament created successfully',
                 data: savedTournament,
@@ -65,20 +60,44 @@ export class TournamentService {
     // Update tournament data
     async updateTournamentData(id: string, updateData: Partial<newTournament>): Promise<{ message: string, data: TournamentProperties }> {
         try {
-            const existingTournament = this.tournamentModel.findById(id)
-            if (!existingTournament) throw new NotFoundException('Tournament not found')
+            // First, check if the tournament exists
+            const existingTournament = await this.tournamentModel.findById(id);
+            if (!existingTournament) {
+                throw new NotFoundException('Tournament not found');
+            }
+            // Additional validation if needed (e.g., team count)
+            if (updateData.maxTeams && updateData.teams && updateData.teams.length > updateData.maxTeams) {
+                throw new BadRequestException('Number of teams exceeds maximum team limit');
+            }
             // Update the tournament
             const updatedTournament = await this.tournamentModel
                 .findByIdAndUpdate(
                     id,
                     { $set: updateData },
-                    { new: true } // This option returns the updated document
+                    { 
+                        new: true, // Return the updated document
+                        runValidators: true // Run model validations during update
+                    }
                 )
                 .exec();
-            return { message: 'Tournament updated successfully', data: updatedTournament }
+    
+            if (!updatedTournament) {
+                throw new InternalServerErrorException('Failed to update tournament');
+            }
+    
+            return { 
+                message: 'Tournament updated successfully', 
+                data: updatedTournament 
+            };
         } catch (error) {
-            if (error instanceof NotFoundException) throw error
-            if (error.code === 1100) throw new ConflictException('Tournament with this name already exists')
+            // More specific error handling
+            if (error instanceof NotFoundException) {
+                throw error;
+            }
+            if (error.code === 11000) {
+                throw new ConflictException('Tournament with this name already exists');
+            }
+            console.error('Update tournament error:', error);
             throw new InternalServerErrorException('Error updating tournament');
         }
     }
