@@ -2,13 +2,14 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, ValidationPipe } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { newPlayer } from './dtos/players.dto';
+import { UpdatePlayerDto } from './dtos/updatePlayer.dto';
 
 @Controller('players')
 export class PlayersController {
 
-    constructor(private playerService:PlayersService){}
+    constructor(private playerService: PlayersService) { }
     @Get()
-    async getAllPlayers(){
+    async getAllPlayers() {
         return this.playerService.getAllPlayers()
     }
     @Post()
@@ -18,8 +19,14 @@ export class PlayersController {
     @Put(':id')
     async updateTournament(
         @Param('id') id: string,
-        @Body(new ValidationPipe()) updateData: Partial<newPlayer>) {
-        this.playerService.updatePlayerData(id, updateData)
+        @Body(new ValidationPipe()) updateData: UpdatePlayerDto) {
+        try {
+            const result = await this.playerService.updatePlayerData(id, updateData)
+            return result;
+        } catch (error) {
+            throw error
+        }
+
     }
     @Delete(':id')
     async deletePlayer(@Param('id') id: string) {

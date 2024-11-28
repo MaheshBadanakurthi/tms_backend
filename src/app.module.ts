@@ -9,7 +9,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TournamentModule } from './tournament/tournament.module';
 import { TeamsModule } from './teams/teams.module';
 import { PlayersModule } from './players/players.module';
-import { TeamsModule } from './teams/teams.module';
 import { ProfileModule } from './Profile/profile.module';
 
 @Module({

@@ -20,7 +20,7 @@ async function bootstrap() {
   // Explicitly log to verify
   // console.log('Environment:', process.env);
   
-  const ip = '192.168.0.175';
+  const ip = '192.168.0.174';
   const port = 4242;
 
   console.log(`IP: ${ip}, PORT: ${port}`);

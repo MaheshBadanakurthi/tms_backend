@@ -1,17 +1,14 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
-export class newPlayer{
+export class newPlayer {
     @IsNotEmpty()
     @IsString()
-    playerName:string;
+    playerName: string;
     @IsNotEmpty()
     @IsString()
-    age:string;
+    age: string;
     @IsNotEmpty()
-    sport:string[];
+    sport: string[];
     @IsOptional()
-    @IsNotEmpty()
-    teams?:string[];
-    @IsString()
-    profilePicture:string;
+    profilePicture?: string;
 }

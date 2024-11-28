@@ -8,8 +8,8 @@ import { teamsSchema } from './schemas/teams.schema';
 @Module({
   controllers: [TeamsController],
   providers: [TeamsService],
-  imports:[
-    MongooseModule.forFeature([{name:'Teams',schema:teamsSchema}])
+  imports: [
+    MongooseModule.forFeature([{ name: 'Teams', schema: teamsSchema }])
   ]
 })
-export class TeamsModule {}
+export class TeamsModule { }
