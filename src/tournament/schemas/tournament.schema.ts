@@ -6,6 +6,8 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 export class TournamentProperties {
     @Prop({ required: true, unique: true })
     name: string;
+    @Prop()
+    description:string;
     @Prop({ required: true })
     sport: string;
     @Prop({ required: true })
