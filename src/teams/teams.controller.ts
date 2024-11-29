@@ -2,15 +2,27 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, ValidationPipe } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { NewTeam } from './dtos/teams.dto';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('teams')
 export class TeamsController {
     constructor(private teamService: TeamsService) { }
     @Get()
+    @ApiOperation({
+        summary: 'Get all teams'
+    })
+    @ApiResponse({
+        status: 200,
+        description: "Teams fetched successfully"
+    })
     async getAllTeams() {
         return this.teamService.getAllTeams()
     }
     @Post()
+    @ApiOperation({
+        summary: 'Create new Team'
+    })
+    @ApiBody({ type: NewTeam, description: 'Payload for creating new Team' })
     async createNewTeam(@Body(new ValidationPipe()) teamData: NewTeam) {
         return this.teamService.createTeam(teamData)
     }

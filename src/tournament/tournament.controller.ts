@@ -14,7 +14,7 @@ export class TournamentController {
     })
     @ApiResponse({
         status: 200,
-        description: "Tournament fetch successfully"
+        description: "Tournament fetched successfully"
     })
     async getAllTournaments() {
         return this.tourService.getAllTournaments()
