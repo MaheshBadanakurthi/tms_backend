@@ -12,8 +12,6 @@ export class TeamsService {
         @InjectModel('Teams')
         private readonly teamModel: Model<Teams>,
     ) { }
-
-    // Get All tournaments
     async getAllTeams(): Promise<Teams[]> {
         try {
             const teams = await this.teamModel
@@ -23,9 +21,7 @@ export class TeamsService {
             if (!teams || teams.length === 0) {
                 throw new NotFoundException('No teams found');
             }
-
             return teams;
-
         } catch (error) {
             if (error instanceof NotFoundException) {
                 throw error;
@@ -33,43 +29,34 @@ export class TeamsService {
             throw new InternalServerErrorException('Error fetching teams.');
         }
     }
-
-    // New Tournament creation with error handling
     async createTeam(tournamentData: NewTeam): Promise<{ message: string; data?: Teams }> {
         console.log(tournamentData);
-
         try {
             const newTeam = new this.teamModel({
                 ...tournamentData,
                 createdAt: new Date(),
             });
             const savedTeam = await newTeam.save();
-
             return {
                 message: 'Team created successfully',
                 data: savedTeam,
             };
         } catch (error) {
-            // Handle duplicate name error (MongoDB unique index error code)
             if (error.code === 11000) {
                 throw new BadRequestException('Team with this name already exists.');
             }
-
-            // Generic error
             throw new InternalServerErrorException('An error occurred while creating the team.');
         }
     }
-    // Update tournament data
     async updateTeam(id: string, updateData: Partial<NewTeam>): Promise<{ message: string, data: Teams }> {
         try {
             const existingTeam = this.teamModel.findById(id)
             if (!existingTeam) throw new NotFoundException('Team not found')
-            // Update the tournament
             const updatedTeam = await this.teamModel
                 .findByIdAndUpdate(
                     id,
                     { $set: updateData },
-                    { new: true } // This option returns the updated document
+                    { new: true }
                 )
                 .exec();
             return { message: 'Team updated successfully', data: updatedTeam }
