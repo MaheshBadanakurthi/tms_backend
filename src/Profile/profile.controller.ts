@@ -6,7 +6,7 @@ import { ProfileService } from './profile.service';
 
 @Controller('upload-profile')
 export class ProfileController {
-    constructor(private readonly profileService: ProfileService) {}
+    constructor(private readonly profileService: ProfileService) { }
 
     @Post()
     @UseInterceptors(
@@ -44,7 +44,7 @@ export class ProfileController {
     )
     async uploadProfileImage(@UploadedFile() file: Express.Multer.File) {
         if (!file) {
-            throw new BadRequestException('No file uploaded.'); 
+            throw new BadRequestException('No file uploaded.');
         }
 
         // Build the full URL including your backend URL
