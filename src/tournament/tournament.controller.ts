@@ -10,8 +10,9 @@ export class TournamentController {
     constructor(private tourService: TournamentService) { }
     @Get()
     @ApiOperation({ summary: 'Get all tournaments' })
-    @ApiResponse({ status: 200, description: "Tournament fetch successfully" })
+    @ApiResponse({ status: 200, description: "Tournament fetched successfully" })
     @ApiResponse({ status: 500, description: "Internal error" })
+
     async getAllTournaments() {
         return this.tourService.getAllTournaments()
     }

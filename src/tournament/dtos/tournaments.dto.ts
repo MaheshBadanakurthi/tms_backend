@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsDate, IsNotEmpty, IsNumber, isNumber, IsOptional, IsString, Max, Min } from "class-validator";
+import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
 export interface teamsInterface {
     players:string[],
     id:string,

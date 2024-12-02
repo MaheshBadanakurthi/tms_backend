@@ -11,7 +11,6 @@ export class PlayersService {
         @InjectModel('player')
         private readonly allPlayersModel: Model<Players>
     ) { }
-    //get all players
     async getAllPlayers(): Promise<Players[]> {
         try {
             const players = await this.allPlayersModel.find().sort({ createdAt: -1 }).exec();
@@ -26,7 +25,6 @@ export class PlayersService {
             throw new InternalServerErrorException('Error while fetching the players data')
         }
     }
-    //creating a player
     async createPlayer(playersData: newPlayer): Promise<{ message: string; data?: Players }> {
         try {
             const newPlayer = new this.allPlayersModel({
@@ -43,7 +41,6 @@ export class PlayersService {
             throw new InternalServerErrorException('An error occurred while creating the tournament.');
         }
     }
-    //updating a player
     async updatePlayerData(id: string, updateData: Partial<newPlayer>): Promise<{ message: string, data: Players }> {
         try {
             const existingPlayer = this.allPlayersModel.findById(id)
@@ -57,7 +54,6 @@ export class PlayersService {
             throw new InternalServerErrorException('Error updating tournament');
         }
     }
-    //deleting the player
     async deletePlayer(id: string): Promise<{ message: string }> {
         try {
             const existingPlayer = this.allPlayersModel.findById(id)

@@ -8,8 +8,8 @@ import { playerSchema } from './schemas/players.schema';
 @Module({
   controllers: [PlayersController],
   providers: [PlayersService],
-  imports:[
-    MongooseModule.forFeature([{name:'player',schema:playerSchema}])
+  imports: [
+    MongooseModule.forFeature([{ name: 'player', schema: playerSchema }])
   ]
 })
-export class PlayersModule {}
+export class PlayersModule { }

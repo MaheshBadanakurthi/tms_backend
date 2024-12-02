@@ -4,13 +4,16 @@ import * as dotenv from 'dotenv';
 import * as path from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 // Specify the exact path to your .env file
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 async function bootstrap() {
   // const app = await NestFactory.create(AppModule);
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const configService = app.get(ConfigService);
+
 
   // Serve static files
   app.useStaticAssets(path.join(__dirname, '..', 'uploads'), {
@@ -28,9 +31,9 @@ async function bootstrap() {
 
   // Explicitly log to verify
   // console.log('Environment:', process.env);
-
-  const ip = '192.168.0.22';
-  const port = 4242;
+  
+  const ip = configService.get<string>('IP'); // Provide a default if not found
+  const port = configService.get<number>('PORT');
 
   console.log(`IP: ${ip}, PORT: ${port}`);
   console.log(`Server is running on http://${ip}:${port}`);
