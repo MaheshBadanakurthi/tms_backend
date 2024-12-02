@@ -11,7 +11,7 @@ import { PlayersModule } from './players/players.module';
 import { TeamsModule } from './teams/teams.module';
 import { ProfileModule } from './Profile/profile.module';
 
-@Module({
+@Module({ 
   imports: [AuthModule,
     ConfigModule.forRoot({
       isGlobal: true, // Makes ConfigModule available throughout the app without re-importing

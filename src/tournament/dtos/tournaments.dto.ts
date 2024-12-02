@@ -1,7 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsDate, IsNotEmpty, IsNumber, isNumber, IsOptional, IsString, Max, Min } from "class-validator";
-
+export interface teamsInterface {
+    players:string[],
+    id:string,
+    sport:string | string[],
+    teamName:string
+}
 export class newTournament {
     @ApiProperty({ description: 'Name of the tournament', required: true, example: "IPL" }) // for Swagger documentation
     @IsString()
@@ -16,7 +21,7 @@ export class newTournament {
     sport: string;
     @ApiProperty({ description: "Teams", example: ['Team A'], required: false })
     @IsNotEmpty()
-    teams: string[]
+    teams: teamsInterface[]
     @IsOptional()
     pools?: number
     @ApiProperty({ description: 'Provide sport format', example: 'Single Elimination', required: false })

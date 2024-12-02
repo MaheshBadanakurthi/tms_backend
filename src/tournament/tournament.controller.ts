@@ -3,59 +3,57 @@ import { Body, Controller, Delete, Get, Param, Post, Put, ValidationPipe } from 
 import { newTournament } from './dtos/tournaments.dto';
 import { TournamentService } from './tournament.service';
 import { UpdateTournamentDto } from './dtos/updateTournament.dto';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags("Tournaments")
 @Controller('tournaments')
 export class TournamentController {
     constructor(private tourService: TournamentService) { }
     @Get()
-    @ApiOperation({
-        summary: 'Get all tournaments'
-    })
-    @ApiResponse({
-        status: 200,
-        description: "Tournament fetch successfully"
-    })
+    @ApiOperation({ summary: 'Get all tournaments' })
+    @ApiResponse({ status: 200, description: "Tournament fetch successfully" })
+    @ApiResponse({ status: 500, description: "Internal error" })
     async getAllTournaments() {
         return this.tourService.getAllTournaments()
     }
 
     @Post()
-    @ApiOperation({
-        summary: 'Create new Tournament'
-    })
+    @ApiOperation({ summary: 'Create new Tournament' })
     @ApiBody({ type: newTournament, description: 'Payload for creating new tournament' })
     @ApiResponse({ status: 200, description: "Tournament created successfully" })
+    @ApiResponse({ status: 400, description: "Bad request check payload" })
+    @ApiResponse({ status: 500, description: "Internal error" })
     async createNewTournament(@Body(new ValidationPipe()) tournamentData: newTournament) {
         return this.tourService.createTournament(tournamentData)
     }
 
     @Put(':id')
+    @ApiOperation({ summary: "Update tournament based on Id" })
+    @ApiBody({ type: newTournament, description: "Update tournament data", })
+    @ApiResponse({ status: 200, description: "Tournament updated successfully" })
+    @ApiResponse({ status: 400, description: "Bad request check payload" })
+    @ApiResponse({ status: 500, description: "Internal error" })
     async updateTournament(
         @Param('id') id: string,
         @Body(new ValidationPipe()) updateData: UpdateTournamentDto) {
-        console.log('Received ID:', id);
-        console.log('Update Data:', updateData);
-
         try {
             const result = await this.tourService.updateTournamentData(id, updateData);
-            console.log('Update Result:', result);
             return result;
         } catch (error) {
-            console.error('Update Error:', error);
             throw error;
         }
     }
 
     // Delete Tournament
     @Delete(':id')
+    @ApiOperation({ summary: "Delete tournament based on id" })
+    @ApiResponse({ status: 200, description: "Tournament delete successfully" })
+    @ApiResponse({ status: 400, description: "Bad request check payload" })
+    @ApiResponse({ status: 500, description: "Internal error" })
     async deleteTournament(@Param('id') id: string) {
         try {
             const result = await this.tourService.deleteTournament(id)
             return result
-        } catch (error) {
-
-        }
+        } catch (error) { }
     }
 
 }

@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { teamsInterface } from "../dtos/tournaments.dto";
 @Schema({
     timestamps: true,
 })
@@ -11,7 +12,7 @@ export class TournamentProperties {
     @Prop({ required: true })
     sport: string;
     @Prop({ required: true })
-    teams: string[]
+    teams: teamsInterface[]
     @Prop()
     pools?: number
     @Prop()
