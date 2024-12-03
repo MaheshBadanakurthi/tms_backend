@@ -12,7 +12,7 @@ export class NewTeam {
     @IsString()
     @IsNotEmpty()
     sport: string;
-    @ApiProperty({ description: "Players", example: ['Team A'], required: true })
+    @ApiProperty({ description: "Players", example: 'Team A', required: true })
     @IsNotEmpty()
-    players: string[]
+    players: {id:string,name:string}[]
 }

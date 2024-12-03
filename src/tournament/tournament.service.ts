@@ -4,8 +4,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TournamentProperties } from './schemas/tournament.schema';
 import { newTournament } from './dtos/tournaments.dto';
-
-
 @Injectable()
 export class TournamentService {
     constructor(
@@ -30,12 +28,11 @@ export class TournamentService {
             throw new InternalServerErrorException(error);
         }
     }
-
     // New Tournament creation with error handling  
     async createTournament(tournamentData: newTournament): Promise<{ message: string; data?: TournamentProperties }> {
         try {
-            if (tournamentData.maxTeams && tournamentData.teams.length > tournamentData.maxTeams ) {
-                console.log(tournamentData.maxTeams,tournamentData.teams,tournamentData.teams.length);
+            if (tournamentData.maxTeams && tournamentData.teams.length > tournamentData.maxTeams) {
+                console.log(tournamentData.maxTeams, tournamentData.teams, tournamentData.teams.length);
                 throw new BadRequestException('Number of teams can not more than max teams.');
             }
             const newTournament = new this.tournamentModel({
@@ -54,8 +51,6 @@ export class TournamentService {
             throw new InternalServerErrorException(error);
         }
     }
-
-
     // Update tournament data
     async updateTournamentData(id: string, updateData: Partial<newTournament>): Promise<{ message: string, data: TournamentProperties }> {
         try {
@@ -73,20 +68,20 @@ export class TournamentService {
                 .findByIdAndUpdate(
                     id,
                     { $set: updateData },
-                    { 
+                    {
                         new: true, // Return the updated document
                         runValidators: true // Run model validations during update
                     }
                 )
                 .exec();
-    
+
             if (!updatedTournament) {
                 throw new InternalServerErrorException('Failed to update tournament');
             }
-    
-            return { 
-                message: 'Tournament updated successfully', 
-                data: updatedTournament 
+
+            return {
+                message: 'Tournament updated successfully',
+                data: updatedTournament
             };
         } catch (error) {
             // More specific error handling
