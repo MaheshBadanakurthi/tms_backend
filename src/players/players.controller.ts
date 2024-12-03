@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { newPlayer } from './dtos/players.dto';
 import { UpdatePlayerDto } from './dtos/updatePlayer.dto';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-
+import { PaginationDto } from 'src/pagination.dto';
 @Controller('players')
 export class PlayersController {
 
@@ -17,8 +17,8 @@ export class PlayersController {
         status: 200,
         description: "Players fetched successfully"
     })
-    async getAllPlayers() {
-        return this.playerService.getAllPlayers()
+    async getAllPlayers(@Query() paginationQuery: PaginationDto) {
+        return this.playerService.getAllPlayers(paginationQuery)
     }
     @Post()
     @ApiOperation({

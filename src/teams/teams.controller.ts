@@ -17,7 +17,7 @@ export class TeamsController {
         description: "Teams fetched successfully"
     })
     @Get()
-  async getAllTeams(@Query() paginationQuery: PaginationDto) {
+    async getAllTeams(@Query() paginationQuery: PaginationDto) {
     return this.teamService.getAllTeams(paginationQuery);
   }
     @Post()

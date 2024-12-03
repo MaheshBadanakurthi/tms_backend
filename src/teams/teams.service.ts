@@ -14,7 +14,6 @@ export class TeamsService {
     ) { }
     async getAllTeams(paginationQuery: PaginationDto): Promise<{ data: Teams[]; total: number }> {
         const { page = 0, limit = 10 } = paginationQuery;
-    
         try {
           const [teams, total] = await Promise.all([
             this.teamModel
@@ -25,7 +24,6 @@ export class TeamsService {
               .exec(),
             this.teamModel.countDocuments().exec(),
           ]);
-    
           return { data: teams, total };
         } catch (error) {
           throw new InternalServerErrorException('Error fetching teams');
