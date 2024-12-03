@@ -17,14 +17,14 @@ import { TeamsModule } from './teams/teams.module';
       isGlobal: true, // Makes ConfigModule available throughout the app without re-importing
       envFilePath: `.env`, // Specifies the path to the .env file (default is '.env')
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
-      inject: [ConfigService],
-    }),
-    // MongooseModule.forRoot('mongodb+srv://maheshbadanakurthi:wQ8TrHZfubO9kViI@tmscluster.e6tmm.mongodb.net/?retryWrites=true&w=majority&appName=tmsCluster/test'),
+    // MongooseModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     uri: configService.get<string>('MONGODB_URI'),
+    //   }),
+    //   inject: [ConfigService],
+    // }),
+    MongooseModule.forRoot('mongodb+srv://maheshbadanakurthi:wQ8TrHZfubO9kViI@tmscluster.e6tmm.mongodb.net/?retryWrites=true&w=majority&appName=tmsCluster/test'),
     TournamentModule,
     PlayersModule,
     TeamsModule,
@@ -38,11 +38,11 @@ export class AppModule implements OnModuleInit {
   constructor(private configService: ConfigService) { }
   async onModuleInit() {
     try {
-      const mongoUri = this.configService.get<string>('MONGODB_URI');
-      if (!mongoUri) {
-        throw new Error('MongoDB URI is not defined in environment variables');
-      }
-      await mongoose.connect(mongoUri);
+      // const mongoUri = this.configService.get<string>('mongodb+srv://maheshbadanakurthi:wQ8TrHZfubO9kViI@tmscluster.e6tmm.mongodb.net/?retryWrites=true&w=majority&appName=tmsCluster/test');
+      // if (!mongoUri) {
+      //   throw new Error('MongoDB URI is not defined in environment variables');
+      // }
+      await mongoose.connect('mongodb+srv://maheshbadanakurthi:wQ8TrHZfubO9kViI@tmscluster.e6tmm.mongodb.net/?retryWrites=true&w=majority&appName=tmsCluster/test');
       console.log('MongoDB connection successful!');
     } catch (err) {
       console.error('MongoDB connection failed:', err);
