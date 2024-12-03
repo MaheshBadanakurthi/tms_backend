@@ -30,7 +30,6 @@ export class TeamsService {
         }
       }
     async createTeam(tournamentData: NewTeam): Promise<{ message: string; data?: Teams }> {
-        console.log(tournamentData);
         try {
             const newTeam = new this.teamModel({
                 ...tournamentData,

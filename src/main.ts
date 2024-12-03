@@ -32,8 +32,8 @@ async function bootstrap() {
   // Explicitly log to verify
   // console.log('Environment:', process.env);
   
-  const ip = configService.get<string>('IP'); // Provide a default if not found
-  const port = configService.get<number>('PORT');
+  const ip = configService.get<string>('IP','192.168.0.22'); // Provide a default if not found
+  const port = configService.get<number>('PORT',4242);
 
   console.log(`IP: ${ip}, PORT: ${port}`);
   console.log(`Server is running on http://${ip}:${port}`);
