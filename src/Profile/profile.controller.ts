@@ -23,7 +23,6 @@ export class ProfileController {
                     'image/jpeg',
                     'image/jpg',
                     'image/png',
-                    'image/gif',
                     'image/webp',
                 ];
                 if (allowedMimeTypes.includes(file.mimetype)) {
@@ -48,7 +47,7 @@ export class ProfileController {
         }
 
         // Build the full URL including your backend URL
-        const fileUrl = `http://192.168.0.174:4242/uploads/profiles/${file.filename}`;
+        const fileUrl = `http://192.168.0.22:4242/uploads/profiles/${file.filename}`;
         return this.profileService.saveProfile(fileUrl);
     }
 }

@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TournamentProperties } from './schemas/tournament.schema';
 import { newTournament } from './dtos/tournaments.dto';
+import { MatcheService } from './services/matches.service';
 
 
 @Injectable()
@@ -11,6 +12,7 @@ export class TournamentService {
     constructor(
         @InjectModel(TournamentProperties.name)
         private readonly tournamentModel: Model<TournamentProperties>,
+        private matcheService: MatcheService
     ) { }
     // Get All tournaments
     async getAllTournaments(): Promise<TournamentProperties[]> {
@@ -35,13 +37,24 @@ export class TournamentService {
     async createTournament(tournamentData: newTournament): Promise<{ message: string; data?: TournamentProperties }> {
         try {
             if (tournamentData.maxTeams && tournamentData.teams.length > tournamentData.maxTeams) {
-                console.log(tournamentData.maxTeams, tournamentData.teams, tournamentData.teams.length);
                 throw new BadRequestException('Number of teams can not more than max teams.');
             }
+
             const newTournament = new this.tournamentModel({
                 ...tournamentData,
                 createdAt: new Date(),
             });
+            let matches = [];
+            if (newTournament.pools) {
+                matches = this.matcheService.scheduleMatchesByPool(newTournament.teams, newTournament.pools)
+                newTournament.format = null;
+                newTournament.poolMatches = matches
+
+            } else if (newTournament.format) {
+                matches = this.matcheService.scheduleMatchesBasedOnFormat(newTournament.teams, newTournament.format)
+                newTournament.pools = null;
+                newTournament.formatMatches = matches
+            }
             const savedTournament = await newTournament.save();
             return {
                 message: 'Tournament created successfully',
