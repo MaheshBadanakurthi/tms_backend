@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TournamentProperties } from './schemas/tournament.schema';
 import { newTournament } from './dtos/tournaments.dto';
+import { PaginationDto } from 'src/pagination.dto';
 import { MatcheService } from './services/matches.service';
 
 
@@ -15,16 +16,20 @@ export class TournamentService {
         private matcheService: MatcheService
     ) { }
     // Get All tournaments
-    async getAllTournaments(): Promise<TournamentProperties[]> {
+    async getAllTournaments(paginationQuery: PaginationDto): Promise<{ data: TournamentProperties[]; total: number }> {
+        const { page = 0, limit = 10 } = paginationQuery;
         try {
-            const tournaments = await this.tournamentModel
-                .find()
-                .sort({ createdAt: -1 })
-                .exec();
-            if (!tournaments || tournaments.length === 0) {
-                return []
-            }
-            return tournaments;
+          const [tournaments, total] = await Promise.all([
+            this.tournamentModel
+              .find()
+              .sort({ createdAt: -1 })
+              .skip(page)
+              .limit(limit)
+              .exec(),
+            this.tournamentModel.countDocuments().exec(),
+          ]);
+    
+          return { data: tournaments, total:total };
         } catch (error) {
             if (error instanceof NotFoundException) {
                 throw error;
@@ -32,7 +37,6 @@ export class TournamentService {
             throw new InternalServerErrorException(error);
         }
     }
-
     // New Tournament creation with error handling  
     async createTournament(tournamentData: newTournament): Promise<{ message: string; data?: TournamentProperties }> {
         try {
@@ -67,8 +71,6 @@ export class TournamentService {
             throw new InternalServerErrorException(error);
         }
     }
-
-
     // Update tournament data
     async updateTournamentData(id: string, updateData: Partial<newTournament>): Promise<{ message: string, data: TournamentProperties }> {
         try {
