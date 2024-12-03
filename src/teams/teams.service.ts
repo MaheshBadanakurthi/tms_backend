@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Teams } from './schemas/teams.schema';
 import { Model } from 'mongoose';
 import { NewTeam } from './dtos/teams.dto';
-
+import { PaginationDto } from 'src/pagination.dto';
 @Injectable()
 export class TeamsService {
 
@@ -12,23 +12,25 @@ export class TeamsService {
         @InjectModel('Teams')
         private readonly teamModel: Model<Teams>,
     ) { }
-    async getAllTeams(): Promise<Teams[]> {
+    async getAllTeams(paginationQuery: PaginationDto): Promise<{ data: Teams[]; total: number }> {
+        const { page = 0, limit = 10 } = paginationQuery;
+    
         try {
-            const teams = await this.teamModel
-                .find()
-                .sort({ createdAt: -1 })
-                .exec();
-            if (!teams || teams.length === 0) {
-                throw new NotFoundException('No teams found');
-            }
-            return teams;
+          const [teams, total] = await Promise.all([
+            this.teamModel
+              .find()
+              .sort({ createdAt: -1 })
+              .skip(page)
+              .limit(limit)
+              .exec(),
+            this.teamModel.countDocuments().exec(),
+          ]);
+    
+          return { data: teams, total };
         } catch (error) {
-            if (error instanceof NotFoundException) {
-                throw error;
-            }
-            throw new InternalServerErrorException('Error fetching teams.');
+          throw new InternalServerErrorException('Error fetching teams');
         }
-    }
+      }
     async createTeam(tournamentData: NewTeam): Promise<{ message: string; data?: Teams }> {
         try {
             const newTeam = new this.teamModel({

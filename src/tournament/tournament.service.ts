@@ -32,7 +32,6 @@ export class TournamentService {
             throw new InternalServerErrorException(error);
         }
     }
-
     // New Tournament creation with error handling  
     async createTournament(tournamentData: newTournament): Promise<{ message: string; data?: TournamentProperties }> {
         try {
@@ -67,8 +66,6 @@ export class TournamentService {
             throw new InternalServerErrorException(error);
         }
     }
-
-
     // Update tournament data
     async updateTournamentData(id: string, updateData: Partial<newTournament>): Promise<{ message: string, data: TournamentProperties }> {
         try {

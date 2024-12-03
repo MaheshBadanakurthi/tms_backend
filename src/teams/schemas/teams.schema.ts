@@ -8,8 +8,8 @@ export class Teams {
     @Prop({ required: true, unique: true })
     teamName: string;
     @Prop({ required: true })
-    sport: string[]
+    sport: string;
     @Prop({ required: true })
-    players: string[];
+    players: {id:string,name:string}[];
 }
 export const teamsSchema = SchemaFactory.createForClass(Teams)

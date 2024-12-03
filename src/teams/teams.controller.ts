@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { NewTeam } from './dtos/teams.dto';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { PaginationDto } from 'src/pagination.dto';
 
 @Controller('teams')
 export class TeamsController {
@@ -15,9 +16,10 @@ export class TeamsController {
         status: 200,
         description: "Teams fetched successfully"
     })
-    async getAllTeams() {
-        return this.teamService.getAllTeams()
-    }
+    @Get()
+  async getAllTeams(@Query() paginationQuery: PaginationDto) {
+    return this.teamService.getAllTeams(paginationQuery);
+  }
     @Post()
     @ApiOperation({
         summary: 'Create new Team'
