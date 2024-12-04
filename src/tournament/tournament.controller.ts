@@ -3,19 +3,18 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe 
 import { newTournament } from './dtos/tournaments.dto';
 import { TournamentService } from './tournament.service';
 import { UpdateTournamentDto } from './dtos/updateTournament.dto';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PaginationDto } from 'src/pagination.dto';
 @ApiTags("Tournaments")
 @Controller('tournaments')
 export class TournamentController {
     constructor(private tourService: TournamentService) { }
-    @Get()
+    @Get(':id?')
     @ApiOperation({ summary: 'Get all tournaments' })
     @ApiResponse({ status: 200, description: "Tournament fetched successfully" })
     @ApiResponse({ status: 500, description: "Internal error" })
-
-    async getAllTournaments(@Query() paginationQuery: PaginationDto) {
-        return this.tourService.getAllTournaments(paginationQuery)
+    async getAllTournaments(@Query() paginationQuery: PaginationDto,@Param('id') id:string) {
+        return this.tourService.getAllTournaments(paginationQuery,id)
     }
 
     @Post()
