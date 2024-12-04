@@ -16,20 +16,31 @@ export class TournamentService {
         private matcheService: MatcheService
     ) { }
     // Get All tournaments
-    async getAllTournaments(paginationQuery: PaginationDto): Promise<{ data: TournamentProperties[]; total: number }> {
-        const { page = 0, limit = 10 } = paginationQuery;
+    async getAllTournaments(paginationQuery: PaginationDto, id: string): Promise<{ data: TournamentProperties[]; total?: number }> {
         try {
-          const [tournaments, total] = await Promise.all([
-            this.tournamentModel
-              .find()
-              .sort({ createdAt: -1 })
-              .skip(page)
-              .limit(limit)
-              .exec(),
-            this.tournamentModel.countDocuments().exec(),
-          ]);
-    
-          return { data: tournaments, total:total };
+            const { page = 0, limit = 10 } = paginationQuery;
+            if (id) {
+                // Use findById for a specific tournament
+                const singleTournament = await this.tournamentModel.findById(id);
+
+                if (!singleTournament) {
+                    throw new NotFoundException(`Tournament with ID ${id} not found`);
+                }
+
+                return { data: [singleTournament] };
+            }
+            const [tournaments, total] = await Promise.all([
+                this.tournamentModel
+                    .find()
+                    .sort({ createdAt: -1 })
+                    .skip(page * limit)
+                    .limit(limit)
+                    .exec(),
+                this.tournamentModel.countDocuments().exec(),
+            ]);
+
+            return { data: tournaments, total: total };
+
         } catch (error) {
             if (error instanceof NotFoundException) {
                 throw error;

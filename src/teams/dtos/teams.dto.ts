@@ -14,5 +14,8 @@ export class NewTeam {
     sport: string;
     @ApiProperty({ description: "Players", example: 'Team A', required: true })
     @IsNotEmpty()
-    players: {id:string,name:string}[]
+    players: { id: string, name: string }[]
+    @IsString()
+    @IsNotEmpty()
+    profile: string
 }
