@@ -13,10 +13,9 @@ export class TournamentController {
     @ApiOperation({ summary: 'Get all tournaments' })
     @ApiResponse({ status: 200, description: "Tournament fetched successfully" })
     @ApiResponse({ status: 500, description: "Internal error" })
-    async getAllTournaments(@Query() paginationQuery: PaginationDto,@Param('id') id:string) {
-        return this.tourService.getAllTournaments(paginationQuery,id)
+    async getAllTournaments(@Query() paginationQuery: PaginationDto, @Param('id') id: string) {
+        return this.tourService.getAllTournaments(paginationQuery, id)
     }
-
     @Post()
     @ApiOperation({ summary: 'Create new Tournament' })
     @ApiBody({ type: newTournament, description: 'Payload for creating new tournament' })
@@ -26,7 +25,6 @@ export class TournamentController {
     async createNewTournament(@Body(new ValidationPipe()) tournamentData: newTournament) {
         return this.tourService.createTournament(tournamentData)
     }
-
     @Put(':id')
     @ApiOperation({ summary: "Update tournament based on Id" })
     @ApiBody({ type: newTournament, description: "Update tournament data", })
@@ -43,7 +41,6 @@ export class TournamentController {
             throw error;
         }
     }
-
     // Delete Tournament
     @Delete(':id')
     @ApiOperation({ summary: "Delete tournament based on id" })
