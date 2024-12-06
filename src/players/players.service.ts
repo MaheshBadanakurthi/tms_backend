@@ -5,7 +5,6 @@ import { Model } from 'mongoose';
 import { Players } from './schemas/players.schema';
 import { newPlayer } from './dtos/players.dto';
 import { PaginationDto } from 'src/pagination.dto';
-
 @Injectable()
 export class PlayersService {
     constructor(
@@ -14,18 +13,17 @@ export class PlayersService {
     ) { }
     async getAllPlayers(paginationQuery: PaginationDto): Promise<{ data: Players[]; total: number }> {
         const { page = 0, limit = 10 } = paginationQuery;
-            try {
-                const [players, total] = await Promise.all([
-                  this.allPlayersModel
+        try {
+            const [players, total] = await Promise.all([
+                this.allPlayersModel
                     .find()
                     .sort({ createdAt: -1 })
                     .skip(page)
                     .limit(limit)
                     .exec(),
-                  this.allPlayersModel.countDocuments().exec(),
-                ]);
-          
-                return { data: players, total };
+                this.allPlayersModel.countDocuments().exec(),
+            ]);
+            return { data: players, total };
         } catch (error) {
             if (error instanceof NotFoundException) {
                 throw error;

@@ -7,7 +7,6 @@ import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PaginationDto } from 'src/pagination.dto';
 @Controller('players')
 export class PlayersController {
-
     constructor(private playerService: PlayersService) { }
     @Get()
     @ApiOperation({
@@ -40,7 +39,6 @@ export class PlayersController {
         } catch (error) {
             throw error
         }
-
     }
     @Delete(':id')
     async deletePlayer(@Param('id') id: string) {

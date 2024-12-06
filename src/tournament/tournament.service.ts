@@ -6,8 +6,6 @@ import { TournamentProperties } from './schemas/tournament.schema';
 import { newTournament } from './dtos/tournaments.dto';
 import { PaginationDto } from 'src/pagination.dto';
 import { MatcheService } from './services/matches.service';
-
-
 @Injectable()
 export class TournamentService {
     constructor(
@@ -20,13 +18,10 @@ export class TournamentService {
         try {
             const { page = 0, limit = 10 } = paginationQuery;
             if (id) {
-                // Use findById for a specific tournament
                 const singleTournament = await this.tournamentModel.findById(id);
-
                 if (!singleTournament) {
                     throw new NotFoundException(`Tournament with ID ${id} not found`);
                 }
-
                 return { data: [singleTournament] };
             }
             const [tournaments, total] = await Promise.all([
@@ -38,9 +33,7 @@ export class TournamentService {
                     .exec(),
                 this.tournamentModel.countDocuments().exec(),
             ]);
-
             return { data: tournaments, total: total };
-
         } catch (error) {
             if (error instanceof NotFoundException) {
                 throw error;
@@ -54,7 +47,6 @@ export class TournamentService {
             if (tournamentData.maxTeams && tournamentData.teams.length > tournamentData.maxTeams) {
                 throw new BadRequestException('Number of teams can not more than max teams.');
             }
-
             const newTournament = new this.tournamentModel({
                 ...tournamentData,
                 createdAt: new Date(),
@@ -85,12 +77,10 @@ export class TournamentService {
     // Update tournament data
     async updateTournamentData(id: string, updateData: Partial<newTournament>): Promise<{ message: string, data: TournamentProperties }> {
         try {
-            // First, check if the tournament exists
             const existingTournament = await this.tournamentModel.findById(id);
             if (!existingTournament) {
                 throw new NotFoundException('Tournament not found');
             }
-            // Additional validation if needed (e.g., team count)
             if (updateData.maxTeams && updateData.teams && updateData.teams.length > updateData.maxTeams) {
                 throw new BadRequestException('Number of teams exceeds maximum team limit');
             }
@@ -100,22 +90,19 @@ export class TournamentService {
                     id,
                     { $set: updateData },
                     {
-                        new: true, // Return the updated document
-                        runValidators: true // Run model validations during update
+                        new: true,
+                        runValidators: true
                     }
                 )
                 .exec();
-
             if (!updatedTournament) {
                 throw new InternalServerErrorException('Failed to update tournament');
             }
-
             return {
                 message: 'Tournament updated successfully',
                 data: updatedTournament
             };
         } catch (error) {
-            // More specific error handling
             if (error instanceof NotFoundException) {
                 throw error;
             }

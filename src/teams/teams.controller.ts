@@ -18,8 +18,8 @@ export class TeamsController {
     })
     @Get()
     async getAllTeams(@Query() paginationQuery: PaginationDto) {
-    return this.teamService.getAllTeams(paginationQuery);
-  }
+        return this.teamService.getAllTeams(paginationQuery);
+    }
     @Post()
     @ApiOperation({
         summary: 'Create new Team'
