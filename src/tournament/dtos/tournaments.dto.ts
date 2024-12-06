@@ -11,10 +11,11 @@ export class newTournament {
     @ApiProperty({ description: 'Name of the tournament', required: true, example: "IPL" }) // for Swagger documentation
     @IsString()
     @IsNotEmpty()
+    @MaxLength(50,{message:'Maximum 50 characters are allowed'})
     name: string;
     @ApiProperty({ description: 'Tournament description', example: 'This is biggest T20 league', required: false }) // for Swagger documentation
     @IsOptional()
-    @MaxLength(10000, { message: "Description is too long. Maximum 1000 characters allowed." })
+    @MaxLength(10000, { message: "Description is too long. Maximum 10000 characters allowed." })
     description: string;
     @ApiProperty({ description: 'Type of Sport', example: 'Cricket', required: true })
     @IsString()
