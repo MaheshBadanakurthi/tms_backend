@@ -29,7 +29,7 @@ export class MatcheService {
             case "double elimination":
                 return this.scheduleDoubleElimination(teams);
 
-            case "round robin":
+            case "round robbin":
                 return this.scheduleRoundRobin(teams);
 
             default:

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
+import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, Max, MaxLength, Min } from "class-validator";
 export interface teamsInterface {
     players: string[],
     id: string,
@@ -14,6 +14,7 @@ export class newTournament {
     name: string;
     @ApiProperty({ description: 'Tournament description', example: 'This is biggest T20 league', required: false }) // for Swagger documentation
     @IsOptional()
+    @MaxLength(10000, { message: "Description is too long. Maximum 1000 characters allowed." })
     description: string;
     @ApiProperty({ description: 'Type of Sport', example: 'Cricket', required: true })
     @IsString()
@@ -45,10 +46,23 @@ export class newTournament {
     @Min(2)
     @Max(30)
     maxTeams?: number
+    poolMatches?: poolMatchInterface[];
+    @IsOptional()
+    formatMatches: FormatMatchesData[]
 }
 export interface FormatMatchesData {
     match: string,
     round: number,
     team1: { players: [], sports: string[], teamName: string }
     team2: { players: [], sports: string[], teamName: string }
+}
+export interface poolMatchInterface {
+    poolIndex: string,
+    teams: {
+        players: string[],
+        sport: string,
+        teamName: string,
+        profile: string
+        _id: string
+    }[]
 }
