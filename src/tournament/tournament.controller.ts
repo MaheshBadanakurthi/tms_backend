@@ -3,19 +3,20 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe 
 import { newTournament } from './dtos/tournaments.dto';
 import { TournamentService } from './tournament.service';
 import { UpdateTournamentDto } from './dtos/updateTournament.dto';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PaginationDto } from 'src/pagination.dto';
-@ApiTags("Tournaments")
-@Controller('tournaments')
+@ApiTags("Tournament")
+@Controller('tournament')
 export class TournamentController {
     constructor(private tourService: TournamentService) { }
     @Get(':id?')
-    @ApiOperation({ summary: 'Get all tournaments' })
+    @ApiOperation({ summary: 'Get all tournaments and Get tournament by ID',description:'Without ID, it will fetch All Tournaments, with ID, it will fetch a tournament by ID.' })
     @ApiResponse({ status: 200, description: "Tournament fetched successfully" })
     @ApiResponse({ status: 500, description: "Internal error" })
+    @ApiParam({name:'id',required:false,description:"ID to fetch tournament by id",type:String})
     async getAllTournaments(@Query() paginationQuery: PaginationDto, @Param('id') id: string) {
         return this.tourService.getAllTournaments(paginationQuery, id)
-    }
+    } 
     @Post()
     @ApiOperation({ summary: 'Create new Tournament' })
     @ApiBody({ type: newTournament, description: 'Payload for creating new tournament' })
