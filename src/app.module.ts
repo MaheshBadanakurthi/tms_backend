@@ -16,14 +16,9 @@ import { TeamsModule } from './teams/teams.module';
     ConfigModule.forRoot({
       isGlobal: true, // Makes ConfigModule available throughout the app without re-importing
       envFilePath: `.env`, // Specifies the path to the .env file (default is '.env')
+      
     }),
-    // MongooseModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: async (configService: ConfigService) => ({
-    //     uri: configService.get<string>('MONGODB_URI'),
-    //   }),
-    //   inject: [ConfigService],
-    // }),
+
     MongooseModule.forRoot('mongodb+srv://maheshbadanakurthi:wQ8TrHZfubO9kViI@tmscluster.e6tmm.mongodb.net/?retryWrites=true&w=majority&appName=tmsCluster/test'),
     TournamentModule,
     PlayersModule,
