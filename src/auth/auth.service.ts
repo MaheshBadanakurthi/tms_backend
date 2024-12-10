@@ -14,6 +14,17 @@ export class AuthService {
         private jwtService: JwtService
     ) { }
 
+    async generateToken(user: any) {
+        console.log(user, "auth service, USERR");
+        const payload = {
+            userId: user._id,
+            email: user.email
+        };
+        return {
+            access_token: this.jwtService.sign(payload),
+        };
+    }
+
     // Register User
     async postRegisterUsers(userData: registerDataTypes): Promise<any> {
         const { email, password } = userData;
