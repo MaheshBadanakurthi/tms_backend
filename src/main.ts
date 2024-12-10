@@ -14,11 +14,7 @@ async function bootstrap() {
   app.useStaticAssets(path.join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/', 
   });
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true,
-    whitelist: true,
-    forbidNonWhitelisted: true,
-  }));
+
   const config = new DocumentBuilder()
     .setTitle('TMS Swagger')
     .setDescription('Tournament Manage System have the following APIs')
@@ -31,7 +27,7 @@ async function bootstrap() {
         bearerFormat: 'JWT',
       },
       'access-token', // Name used in Swagger UI
-    ) // swagger api's can access only after login
+    ) 
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);

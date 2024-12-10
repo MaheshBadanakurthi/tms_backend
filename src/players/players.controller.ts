@@ -6,12 +6,12 @@ import { UpdatePlayerDto } from './dtos/updatePlayer.dto';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PaginationDto } from 'src/pagination.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-@Controller('players')
+@Controller('player')
 export class PlayersController {
     constructor(private playerService: PlayersService) { }
 
     @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth()
+    @ApiBearerAuth('access-token')
     @Get()
     @ApiOperation({
         summary: 'Get all players'

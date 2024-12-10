@@ -12,7 +12,7 @@ export class TournamentController {
     constructor(private tourService: TournamentService) { }
     
     @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('JWT-auth')
+    @ApiBearerAuth('access-token')
     @Get(':id?')
     @ApiOperation({ summary: 'Get all tournaments and Get tournament by ID',description:'Without ID, it will fetch All Tournaments, with ID, it will fetch a tournament by ID.' })
     @ApiResponse({ status: 200, description: "Tournament fetched successfully" })
@@ -58,5 +58,4 @@ export class TournamentController {
             return result
         } catch (error) { }
     }
-
 }

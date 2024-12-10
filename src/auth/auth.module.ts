@@ -11,18 +11,6 @@ import { JwtStrategy } from './jwt.strategy';
 @Module({
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
-  // imports: [
-  //   ConfigModule, // Import ConfigModule here
-  //   PassportModule.register({ defaultStrategy: 'jwt' }),
-
-  //   JwtModule.register({
-  //     secret: process.env.JWT_SECRET || 'defaultSecretKey', // Set your secret key here
-  //     signOptions: { expiresIn: '1h' }, // Token expiration time
-  //   }),
-  //   MongooseModule.forFeature([{ name: 'Register', schema: RegisterSchema }]),
-  // ],
-
-
   imports: [
     ConfigModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
