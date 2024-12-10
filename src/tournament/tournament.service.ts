@@ -84,6 +84,17 @@ export class TournamentService {
             if (updateData.maxTeams && updateData.teams && updateData.teams.length > updateData.maxTeams) {
                 throw new BadRequestException('Number of teams exceeds maximum team limit');
             }
+            let matches = [];
+            if (updateData.pools) {
+                matches = this.matcheService.scheduleMatchesByPool(updateData.teams, updateData.pools)
+                updateData.format = null;
+                updateData.poolMatches = matches
+
+            } else if (updateData.format) {
+                matches = this.matcheService.scheduleMatchesBasedOnFormat(updateData.teams, updateData.format)
+                updateData.pools = null;
+                updateData.formatMatches = matches
+            }
             // Update the tournament
             const updatedTournament = await this.tournamentModel
                 .findByIdAndUpdate(
@@ -110,7 +121,7 @@ export class TournamentService {
                 throw new ConflictException('Tournament with this name already exists');
             }
             console.error('Update tournament error:', error);
-            throw new InternalServerErrorException('Error updating tournament');
+            throw new InternalServerErrorException('Error updating tournament',error);
         }
     }
     async deleteTournament(id: string): Promise<{ message: string }> {

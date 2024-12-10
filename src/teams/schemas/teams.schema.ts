@@ -9,7 +9,7 @@ export class Teams {
     teamName: string;
     @Prop({ required: true })
     sport: string;
-    @Prop({ required: true })
+    @Prop()
     players: { id: string, name: string }[];
     @Prop({ required: true })
     profile: string

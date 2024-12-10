@@ -46,7 +46,7 @@ export class ProfileController {
             throw new BadRequestException('No file uploaded.');
         }
         // Build the full URL including your backend URL
-        const fileUrl = `http://192.168.0.175:4242/uploads/profiles/${file.filename}`;
+        const fileUrl = `http://192.168.0.22:4242/uploads/profiles/${file.filename}`;
         return this.profileService.saveProfile(fileUrl);
     }
 }

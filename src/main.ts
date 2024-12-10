@@ -21,7 +21,7 @@ async function bootstrap() {
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
-  const ip = configService.get<string>('IP', '192.168.0.175');
+  const ip = configService.get<string>('IP', '192.168.0.22');
   const port = configService.get<number>('PORT', 4242);
   console.log(`IP: ${ip}, PORT: ${port}`);
   console.log(`Server is running on http://${ip}:${port}`);
