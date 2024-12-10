@@ -53,5 +53,4 @@ export class TournamentController {
             return result
         } catch (error) { }
     }
-
 }
