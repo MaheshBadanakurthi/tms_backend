@@ -5,7 +5,7 @@ import { newPlayer } from './dtos/players.dto';
 import { UpdatePlayerDto } from './dtos/updatePlayer.dto';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PaginationDto } from 'src/pagination.dto';
-@Controller('players')
+@Controller('player')
 export class PlayersController {
     constructor(private playerService: PlayersService) { }
     @Get()

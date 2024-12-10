@@ -5,7 +5,7 @@ import { NewTeam } from './dtos/teams.dto';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PaginationDto } from 'src/pagination.dto';
 
-@Controller('teams')
+@Controller('team')
 export class TeamsController {
     constructor(private teamService: TeamsService) { }
     @Get()
