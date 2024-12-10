@@ -15,7 +15,7 @@ import { TeamsModule } from './teams/teams.module';
   imports: [AuthModule,
     ConfigModule.forRoot({
       isGlobal: true, // Makes ConfigModule available throughout the app without re-importing
-      envFilePath: `.env`, // Specifies the path to the .env file (default is '.env')
+      envFilePath: `../.env`, // Specifies the path to the .env file (default is '.env')
       
     }),
 
@@ -33,10 +33,6 @@ export class AppModule implements OnModuleInit {
   constructor(private configService: ConfigService) { }
   async onModuleInit() {
     try {
-      // const mongoUri = this.configService.get<string>('mongodb+srv://maheshbadanakurthi:wQ8TrHZfubO9kViI@tmscluster.e6tmm.mongodb.net/?retryWrites=true&w=majority&appName=tmsCluster/test');
-      // if (!mongoUri) {
-      //   throw new Error('MongoDB URI is not defined in environment variables');
-      // }
       await mongoose.connect('mongodb+srv://maheshbadanakurthi:wQ8TrHZfubO9kViI@tmscluster.e6tmm.mongodb.net/?retryWrites=true&w=majority&appName=tmsCluster/test');
       console.log('MongoDB connection successful!');
     } catch (err) {

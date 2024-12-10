@@ -1,13 +1,17 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { newPlayer } from './dtos/players.dto';
 import { UpdatePlayerDto } from './dtos/updatePlayer.dto';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PaginationDto } from 'src/pagination.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 @Controller('players')
 export class PlayersController {
     constructor(private playerService: PlayersService) { }
+
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     @Get()
     @ApiOperation({
         summary: 'Get all players'
