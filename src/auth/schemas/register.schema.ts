@@ -5,13 +5,10 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 })
 export class Register {
     @Prop()
-
     name: string;
     @Prop({ unique: [true, 'Duplicate email entered'] })
-
     email: string;
     @Prop()
-
     password: string;
     @Prop()
     mobile: number
