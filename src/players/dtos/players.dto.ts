@@ -2,7 +2,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 export class newPlayer {
-    @ApiProperty({description:'Name of the player', required: true, example: "Jhon"})
+    @ApiProperty({ description: 'Name of the player', required: true, example: "Jhon" })
     @IsNotEmpty()
     @IsString()
     playerName: string;
@@ -15,5 +15,5 @@ export class newPlayer {
     sport: string[];
     @ApiProperty({ description: "Provide profile url", example: 'http://192.168.0.22:4242/uploads/profiles/1732778352388.webp', required: false })
     @IsOptional()
-    profilePicture?: string;
+    profile?: string;
 }

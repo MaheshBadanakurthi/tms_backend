@@ -1,13 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { FormatMatchesData, teamsInterface } from "../dtos/tournaments.dto";
+import { FormatMatchesData, poolMatchInterface, teamsInterface } from "../dtos/tournaments.dto";
 @Schema({
     timestamps: true,
 })
 export class TournamentProperties {
     @Prop({ required: true, unique: true })
     name: string;
-    @Prop()
+    @Prop({maxlength:10000})
     description: string;
     @Prop({ required: true })
     sport: string;
@@ -28,7 +28,7 @@ export class TournamentProperties {
     @Prop({ default: Date.now })
     createdAt: Date
     @Prop({ type: [Object] })  // This will store matches as an array of objects
-    poolMatches?: any[];
+    poolMatches?: poolMatchInterface[];
     @Prop()
     formatMatches: FormatMatchesData[]
 

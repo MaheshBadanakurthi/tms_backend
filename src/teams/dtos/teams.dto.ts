@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class NewTeam {
     @ApiProperty({ description: 'Name of the team', required: true, example: "Team A" })
@@ -13,7 +13,7 @@ export class NewTeam {
     @IsNotEmpty()
     sport: string;
     @ApiProperty({ description: "Players", example: 'Team A', required: true })
-    @IsNotEmpty()
+  @IsOptional()
     players: { id: string, name: string }[]
     @IsString()
     @IsNotEmpty()

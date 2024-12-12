@@ -12,6 +12,6 @@ export class Players {
     @Prop({ required: true })
     sport: string[];
     @Prop()
-    profilePicture?: string;
+    profile?: string;
 }
 export const playerSchema = SchemaFactory.createForClass(Players)
