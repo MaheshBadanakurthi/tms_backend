@@ -29,12 +29,18 @@ export class TeamsController {
         return this.teamService.createTeam(teamData)
     }
     @Put(':id')
+    @ApiOperation({
+        summary: "Update team based on id" 
+    })
     async updateTeam(
         @Param('id') id: string,
         @Body(new ValidationPipe()) updateData: Partial<NewTeam>) {
         this.teamService.updateTeam(id, updateData)
     }
     @Delete(':id')
+    @ApiOperation({
+        summary: "Delete team based on id" 
+    })
     async deleteTeam(@Param('id') id: string) {
         this.teamService.deleteTeam(id)
     }

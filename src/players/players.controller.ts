@@ -30,6 +30,9 @@ export class PlayersController {
         return this.playerService.createPlayer(PlayerData)
     }
     @Put(':id')
+    @ApiOperation({
+        summary: "Update player based on Id" 
+    })
     async updateTournament(
         @Param('id') id: string,
         @Body(new ValidationPipe()) updateData: UpdatePlayerDto) {
@@ -41,6 +44,9 @@ export class PlayersController {
         }
     }
     @Delete(':id')
+    @ApiOperation({
+        summary: "Delete player based on Id" 
+    })
     async deletePlayer(@Param('id') id: string) {
         this.playerService.deletePlayer(id)
     }

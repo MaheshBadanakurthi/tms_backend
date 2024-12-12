@@ -12,7 +12,9 @@ export class PlayersService {
         private readonly allPlayersModel: Model<Players>
     ) { }
     async getAllPlayers(paginationQuery: PaginationDto): Promise<{ data: Players[]; total: number }> {
-        const { page = 0, limit = 10 } = paginationQuery;
+        // const { page = 0, limit = 10 } = paginationQuery;
+        const page = Number(paginationQuery.page) || 1;
+        const limit = Number(paginationQuery.limit) || 10;
         try {
             const [players, total] = await Promise.all([
                 this.allPlayersModel

@@ -43,7 +43,7 @@ export class AppModule implements OnModuleInit {
       //   throw new Error('MongoDB URI is not defined in environment variables');
       // }
       await mongoose.connect('mongodb+srv://maheshbadanakurthi:wQ8TrHZfubO9kViI@tmscluster.e6tmm.mongodb.net/?retryWrites=true&w=majority&appName=tmsCluster/test');
-      console.log('MongoDB connection successful!');
+      console.log('DB Connected Successfully!');
     } catch (err) {
       console.error('MongoDB connection failed:', err);
     }
