@@ -14,5 +14,7 @@ export class Register {
     mobile: number
     @Prop({ default: 'User' }) // Default role is 'User'
     role: string;
+    @Prop()
+    profile: string
 }
 export const RegisterSchema = SchemaFactory.createForClass(Register)
