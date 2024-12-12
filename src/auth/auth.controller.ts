@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { LoginDto, registerDataTypes } from './dtos/auth.dto';
 import { AuthService } from './auth.service';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { UpdateUserDto } from './dtos/user-update.dto';
 
-@Controller('auth')
+@Controller('user')
 export class AuthController {
   constructor(private authService: AuthService) { }
 
@@ -26,5 +28,30 @@ export class AuthController {
     @Body('password') password: string,
   ) {
     return this.authService.loginUser(email, password);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  @ApiOperation({ description: 'Get user profile data by ID' })
+  @ApiResponse({ status: 200, description: "User profile data fetched successfully" })
+  @ApiResponse({ status: 500, description: "Internal server error" })
+  @Get(':id')
+  async getUserProfileDetails(@Param('id') id: string) {
+    return this.authService.getUserDetails(id)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  @ApiOperation({ description: "Update the user data" })
+  @Put(":id")
+  async updateUserData(@Param('id') id: string, @Body(new ValidationPipe()) updateUserProfileData: UpdateUserDto) {
+    return this.authService.updateUserDetails(id, updateUserProfileData)
+  }
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  @ApiOperation({description:"Delete user account"})
+  @Delete(":id")
+  async deleteAccount(@Param('id') id:string){
+    return this.authService.deleteUserAccount(id)
   }
 }
