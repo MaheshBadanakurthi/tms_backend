@@ -105,29 +105,55 @@ export class MatcheService {
     }
 
     // Round Robin
-    private scheduleRoundRobin(teams: teamsInterface[]): any[] {
-        const matches = [];
-        const teamCount = teams.length;
+    scheduleRoundRobin(teams: teamsInterface[]): any[] {
+        const matches: any[] = [];
+        const n = teams.length;
 
-        // Generate a Round Robin schedule
-        for (let round = 1; round < teamCount; round++) {
-            for (let i = 0; i < teamCount / 2; i++) {
-                const team1 = teams[i];
-                const team2 = teams[teamCount - i - 1];
+        // Ensure even number of teams
+        if (n % 2 !== 0) {
+            teams.push({
+                id: 'bye',
+                teamName: 'Bye Team',
+                players: [],
+                sport: ''
+            });
+        }
+
+        const halfSize = teams.length / 2;
+
+        for (let round = 0; round < teams.length - 1; round++) {
+            for (let match = 0; match < halfSize; match++) {
+                const team1 = teams[match];
+                const team2 = teams[teams.length - 1 - match];
+
+                // Skip bye matches
+                if (team1.id === 'bye' || team2.id === 'bye') continue;
+
                 matches.push({
-                    round: round,
-                    match: `Match-${round}-${i + 1}`,
-                    team1: team1,
-                    team2: team2,
+                    round: round + 1,
+                    matchId: `${team1.sport}-Match-${round + 1}-${match + 1}`,
+                    team1: {
+                        id: team1.id,
+                        teamName: team1.teamName,
+                        players: team1.players
+                    },
+                    team2: {
+                        id: team2.id,
+                        teamName: team2.teamName,
+                        players: team2.players
+                    }
                 });
             }
 
-            // Rotate teams for the next round
-            const lastTeam = teams.pop();
-            teams.splice(1, 0, lastTeam!);
+            // Rotate teams
+            teams.splice(1, 0, teams.pop()!);
         }
 
         return matches;
+    }
+
+    shuffleTeams(teams: teamsInterface[]): teamsInterface[] {
+        return teams.sort(() => 0.5 - Math.random());
     }
 
 
