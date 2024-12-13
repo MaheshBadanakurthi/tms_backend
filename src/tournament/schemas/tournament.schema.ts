@@ -28,9 +28,11 @@ export class TournamentProperties {
     @Prop({ default: Date.now })
     createdAt: Date
     @Prop({ type: [Object] })  // This will store matches as an array of objects
-    poolMatches?: poolMatchInterface[];
+    poolMatches?: poolMatchInterface[] | null;
     @Prop()
-    formatMatches: FormatMatchesData[]
+    formatMatches: FormatMatchesData[] | null
+    @Prop()
+    poolScheduledMatches: FormatMatchesData[] | null
 
 }
 export const TournamentSchema = SchemaFactory.createForClass(TournamentProperties)
