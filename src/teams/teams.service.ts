@@ -12,14 +12,14 @@ export class TeamsService {
         private readonly teamModel: Model<Teams>,
     ) { }
     async getAllTeams(paginationQuery: PaginationDto): Promise<{ data: Teams[]; total: number }> {
-        const { page = 0, limit = 10 } = paginationQuery;
+        const { page = 0, limit = 10, showAll = false } = paginationQuery;
         try {
             const [teams, total] = await Promise.all([
                 this.teamModel
                     .find()
                     .sort({ createdAt: -1 })
                     .skip(page)
-                    .limit(limit)
+                    .limit(showAll ? 0 : limit)
                     .exec(),
                 this.teamModel.countDocuments().exec(),
             ]);

@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, IsPositive } from "class-validator";
+import { IsOptional, IsInt, IsPositive, IsBoolean } from "class-validator";
 export class PaginationDto {
   @IsOptional()
   @IsInt()
@@ -8,4 +8,7 @@ export class PaginationDto {
   @IsInt()
   @IsPositive()
   limit?: number;
+  @IsOptional()
+  @IsBoolean()
+  showAll: boolean
 }

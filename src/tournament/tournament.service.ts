@@ -54,13 +54,16 @@ export class TournamentService {
             let matches = [];
             if (newTournament.pools) {
                 matches = this.matcheService.scheduleMatchesByPool(newTournament.teams, newTournament.pools)
-                newTournament.format = null;
+                newTournament.format = newTournament.formatMatches = null;
                 newTournament.poolMatches = matches
-
-            } else if (newTournament.format) {
+                const newMatches = this.matcheService.schedulePoolMatches(matches)
+            }
+             else if (newTournament.format) {
                 matches = this.matcheService.scheduleMatchesBasedOnFormat(newTournament.teams, newTournament.format)
-                newTournament.pools = null;
+                newTournament.pools = newTournament.poolMatches = null;
                 newTournament.formatMatches = matches
+                newTournament.poolScheduledMatches =  this.matcheService.schedulePoolMatches(matches)
+
             }
             const savedTournament = await newTournament.save();
             return {
@@ -87,12 +90,13 @@ export class TournamentService {
             let matches = [];
             if (updateData.pools) {
                 matches = this.matcheService.scheduleMatchesByPool(updateData.teams, updateData.pools)
-                updateData.format = null;
+                updateData.format = updateData.formatMatches = null;
                 updateData.poolMatches = matches
+                updateData.poolScheduledMatches =  this.matcheService.schedulePoolMatches(matches)
 
             } else if (updateData.format) {
                 matches = this.matcheService.scheduleMatchesBasedOnFormat(updateData.teams, updateData.format)
-                updateData.pools = null;
+                updateData.pools = updateData.poolMatches = null;
                 updateData.formatMatches = matches
             }
             // Update the tournament
@@ -121,7 +125,7 @@ export class TournamentService {
                 throw new ConflictException('Tournament with this name already exists');
             }
             console.error('Update tournament error:', error);
-            throw new InternalServerErrorException('Error updating tournament',error);
+            throw new InternalServerErrorException('Error updating tournament', error);
         }
     }
     async deleteTournament(id: string): Promise<{ message: string }> {
