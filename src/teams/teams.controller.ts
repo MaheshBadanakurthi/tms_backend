@@ -39,6 +39,9 @@ export class TeamsController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('access-token')
     @Put(':id')
+    @ApiOperation({
+        summary: "Update team based on id" 
+    })
     async updateTeam(
         @Param('id') id: string,
         @Body(new ValidationPipe()) updateData: Partial<NewTeam>) {
@@ -48,6 +51,9 @@ export class TeamsController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('access-token')
     @Delete(':id')
+    @ApiOperation({
+        summary: "Delete team based on id" 
+    })
     async deleteTeam(@Param('id') id: string) {
         this.teamService.deleteTeam(id)
     }

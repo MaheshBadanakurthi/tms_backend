@@ -32,6 +32,9 @@ export class PlayersController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('access-token')
     @Put(':id')
+    @ApiOperation({
+        summary: "Update player based on Id" 
+    })
     async updateTournament(
         @Param('id') id: string,
         @Body(new ValidationPipe()) updateData: UpdatePlayerDto) {
@@ -45,6 +48,9 @@ export class PlayersController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('access-token')
     @Delete(':id')
+    @ApiOperation({
+        summary: "Delete player based on Id" 
+    })
     async deletePlayer(@Param('id') id: string) {
         try {
             this.playerService.deletePlayer(id)
