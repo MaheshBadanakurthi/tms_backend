@@ -50,10 +50,12 @@ export class newTournament {
     poolMatches?: poolMatchInterface[];
     @IsOptional()
     formatMatches: FormatMatchesData[]
+    @IsOptional()
+    poolScheduledMatches:FormatMatchesData[]
 }
 export interface FormatMatchesData {
-    match: string,
-    round: number,
+    match?: string,
+    round?: number,
     team1: { players: [], sports: string[], teamName: string }
     team2: { players: [], sports: string[], teamName: string }
 }
